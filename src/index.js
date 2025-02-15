@@ -10,7 +10,7 @@ import { persistStore } from 'redux-persist';
 
 let persistor = persistStore(store);
 
-export const BASE_URL="http://chat-app-backend-one-zeta.vercel.app/"
+export const BASE_URL="https://chat-app-backend-one-zeta.vercel.app"
 // export const BASE_URL="http://chat-app-backend-one-zeta.vercel.app"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

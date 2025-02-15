@@ -6,8 +6,8 @@ import Messages from "./Messages";
 import { useSelector, useDispatch } from "react-redux";
 import { setMessages } from "../redux/messageSlice";
 import axios from "axios";
-import { BASE_URL } from "..";
-
+import { BASE_URL } from "../index.js";
+const token = localStorage.getItem('token'); // Ensure the token is valid
 const MessageContainer = () => {
   const { selectedUser, authUser, onlineUsers } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ const MessageContainer = () => {
 
       try {
         const res = await axios.get(`${BASE_URL}/api/v1/message/${selectedUser._id}`, {
+          headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
         dispatch(setMessages(res.data || [])); 
