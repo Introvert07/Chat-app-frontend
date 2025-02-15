@@ -19,7 +19,7 @@ const Signup = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://chat-app-backend-one-zeta.vercel.app/api/v1/user/register", user, {
+      const res = await axios.post("https://chat-app-backend-one-zeta.vercel.app/api/v1/user/register", user, {
         headers: {
           "Content-Type": "application/json",
         },
