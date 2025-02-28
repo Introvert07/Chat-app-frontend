@@ -50,16 +50,31 @@ const Sidebar = () => {
   // ✅ Handle Account Deletion
   const handleDeleteAccount = async () => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("No authentication token found.");
+        return;
+      }
+  
       await axios.delete(`${BASE_URL}/api/v1/user/delete/${authUser?._id}`, {
-        withCredentials: true,
+        headers: { Authorization: `Bearer ${token}` }, // ✅ Fix: Attach Authorization header
+        withCredentials: true, // Ensure credentials are sent
       });
+  
+      // ✅ Show success message
       toast.success("Account deleted successfully");
-      navigate("/signup"); // Redirect to sign-up page
+  
+      // ✅ Clear token from localStorage
+      localStorage.removeItem("token");
+  
+      // ✅ Redirect to login/signup page
+      navigate("/signup");
     } catch (error) {
-      toast.error("Failed to delete account. Try again.");
-      console.error("Error deleting account:", error);
+      console.error("Error deleting account:", error?.response?.data || error);
+      toast.error(error?.response?.data?.message || "Failed to delete account. Try again.");
     }
   };
+  
 
   return (
     <div className="sidebar bg-gray-900 text-white w-80 h-screen flex flex-col shadow-lg">

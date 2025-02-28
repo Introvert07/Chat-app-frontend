@@ -5,9 +5,11 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/userSlice";
 import { BASE_URL } from "..";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
   const [user, setUser] = useState({ username: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,8 +20,6 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
-
-      
 
       if (res.data.token && res.data.user) {
         localStorage.setItem("token", res.data.token);
@@ -50,15 +50,21 @@ const Login = () => {
               placeholder="Enter your username"
             />
           </div>
-          <div className="mt-4">
+          <div className="mt-4 relative">
             <label className="block text-sm font-medium text-gray-900">Password</label>
             <input
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="password"
+              className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
             />
+            <span
+              className="absolute right-3 top-10 text-gray-600 cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+            </span>
           </div>
           <p className="text-center text-sm text-gray-900 my-3">
             Don't have an account? <Link to="/signup" className="text-blue-400">Signup</Link>
