@@ -8,7 +8,7 @@ import { setOtherUsers, setSelectedUser } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 import OtherUser from "./OtherUser";
 
-const BASE_URL = "https://chat-app-backend-one-zeta.vercel.app";
+const BASE_URL = "https://chat-app-backend-wr8r.onrender.com";
 
 const Sidebar = () => {
   const [search, setSearch] = useState("");
