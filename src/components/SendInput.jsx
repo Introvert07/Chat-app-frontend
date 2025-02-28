@@ -18,20 +18,36 @@ const SendInput = () => {
     e.preventDefault();
     if (!message.trim()) return;
 
+    const token = localStorage.getItem("token"); // Always get the latest token
+
+    if (!token) {
+      console.error("No token found. Redirecting to login...");
+      window.location.href = "/login";
+      return;
+    }
+
     try {
       const res = await axios.post(
         `${BASE_URL}/api/v1/message/send/${selectedUser?._id}`,
         { message },
         {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
       dispatch(setMessages([...messages, res?.data?.newMessage]));
       setMessage("");
     } catch (error) {
-      console.error("Error sending message:", error);
+      if (error.response?.status === 401) {
+        console.error("Session expired. Redirecting to login...");
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      } else {
+        console.error("Error sending message:", error.response?.data || error.message);
+      }
     }
   };
 
